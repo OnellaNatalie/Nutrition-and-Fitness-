@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta id="metaThemeColor" name="theme-color" content="#F8F7F4" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Pulse & Lean" />
+  <title>Pulse &amp; Lean — Heart Rate &amp; Fat-Loss Calorie Tracker</title>
+
+  <!-- Open Graph & Social Sharing Preview Metadata -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Pulse & Lean — 60s Flashlight Heart Rate & Fat-Loss Calorie Tracker" />
+  <meta property="og:description" content="Measure your 60-second pulse with your phone flashlight, discover your optimal Fat-Burn Heart Rate Zone, and track daily fat-loss calories offline with voice dictation." />
+  <meta id="ogImageMeta" property="og:image" content="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'%3E%3Crect width='1200' height='630' fill='%23F8F7F4'/%3E%3Crect x='60' y='60' width='1080' height='510' rx='48' fill='%23FFFFFF' stroke='%23EAE8E1' stroke-width='4'/%3E%3Ccircle cx='210' cy='315' r='86' fill='%231C1C1E'/%3E%3Cpath d='M210 355c-34-24-54-42-54-65a30 30 0 0 1 54-18 30 30 0 0 1 54 18c0 23-20 41-54 65z' fill='%23EF4444'/%3E%3Ctext x='340' y='295' font-family='Inter,Arial,sans-serif' font-size='54' font-weight='800' fill='%231C1C1E'%3EPulse %26amp; Lean%3C/text%3E%3Ctext x='340' y='355' font-family='Inter,Arial,sans-serif' font-size='30' font-weight='500' fill='%2378756E'%3E60s Flashlight Heart Rate %E2%80%A2 Fat-Loss Calorie Tracker%3C/text%3E%3C/svg%3E" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Pulse & Lean — Heart Rate & Fat-Loss Tracker" />
+  <meta name="twitter:description" content="60-second camera flashlight heart rate scanner, Fat-Burn HR zones & voice-enabled fat-loss calorie tracker." />
+
+  <link id="pwaManifestLink" rel="manifest" />
+  <link id="appleTouchIcon" rel="apple-touch-icon" />
+  <link id="faviconLink" rel="icon" type="image/svg+xml" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =====================================================================
+       CLEAN MODERN CARD UI SYSTEM (LIGHT #F8F7F4 + NIGHT #121214)
+       Inspired by clean editorial recipe/wellness cards with soft pastel
+       badges, crisp borders, and bold #1C1C1E primary action pills.
+       ===================================================================== */
+    :root {
+      --bg-app: #F8F7F4;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F2F0EB;
+      --bg-input: #F5F4F0;
+      --border-card: #EAE8E1;
+      --border-strong: #DCD9D0;
+      --text-primary: #1C1C1E;
+      --text-secondary: #6E6D68;
+      --text-muted: #9A9891;
+      --btn-primary-bg: #1C1C1E;
+      --btn-primary-text: #FFFFFF;
+      --accent-amber: #F59E0B;
+      --accent-rose: #E11D48;
+      --accent-emerald: #10B981;
+      --card-shadow: 0 4px 20px rgba(28, 28, 30, 0.04);
+    }
+
+    html.dark {
+      --bg-app: #111113;
+      --bg-surface: #1B1B1F;
+      --bg-subtle: #25252B;
+      --bg-input: #222227;
+      --border-card: #2C2C34;
+      --border-strong: #3A3A44;
+      --text-primary: #F5F5F7;
+      --text-secondary: #A1A1AA;
+      --text-muted: #71717A;
+      --btn-primary-bg: #F5F5F7;
+      --btn-primary-text: #111113;
+      --card-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-app);
+      color: var(--text-primary);
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: calc(2.25rem + env(safe-area-inset-bottom, 0px));
+      transition: background-color 0.25s ease, color 0.25s ease;
+      overflow-x: hidden;
+    }
+
+    .app-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      box-shadow: var(--card-shadow);
+      border-radius: 24px;
+      transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.16s ease;
+    }
+
+    .app-subcard {
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-card);
+      border-radius: 18px;
+    }
+
+    .app-input {
+      background-color: var(--bg-input);
+      border: 1.5px solid var(--border-card);
+      color: var(--text-primary);
+      border-radius: 16px;
+      min-height: 48px;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.2s ease;
+    }
+
+    .app-input:focus {
+      outline: none;
+      border-color: var(--text-primary);
+      background-color: var(--bg-surface);
+    }
+
+    .app-input::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .btn-primary {
+      background-color: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      border-radius: 9999px;
+      min-height: 48px;
+      font-weight: 700;
+      transition: transform 0.14s ease, opacity 0.18s ease;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1.5px solid var(--border-card);
+      border-radius: 9999px;
+      min-height: 48px;
+      font-weight: 600;
+      transition: transform 0.14s ease, border-color 0.18s ease, background-color 0.18s ease;
+    }
+
+    .btn-secondary:active {
+      transform: scale(0.98);
+    }
+
+    .pill-tab {
+      min-height: 44px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.18s ease;
+      border: 1.5px solid var(--border-card);
+      background-color: var(--bg-surface);
+      color: var(--text-secondary);
+    }
+
+    .pill-tab.active {
+      background-color: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      border-color: var(--btn-primary-bg);
+    }
+
+    /* Per-field Type / Speak Segmented Toggle */
+    .mode-switch {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-card);
+      border-radius: 9999px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .mode-switch-btn {
+      min-height: 32px;
+      padding: 0 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-secondary);
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+
+    .mode-switch-btn.active {
+      background-color: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+    }
+
+    .mode-switch-btn.listening {
+      background-color: #E11D48;
+      color: #FFFFFF;
+      animation: micPulse 1.1s infinite ease-in-out;
+    }
+
+    @keyframes micPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.45); }
+      50% { box-shadow: 0 0 0 6px rgba(225, 29, 72, 0); }
+    }
+
+    @keyframes heartThump {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.18); }
+      45% { transform: scale(0.95); }
+      65% { transform: scale(1.1); }
+    }
+
+    .heart-beating {
+      animation: heartThump 0.95s infinite ease-in-out;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- =====================================================================
+       NON-BLOCKING TOAST FEEDBACK BANNER
+       ===================================================================== -->
+  <div id="toastBanner" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md pointer-events-none opacity-0 -translate-y-3 transition-all duration-300">
+    <div class="app-card px-4 py-3 flex items-center gap-3 text-sm font-semibold">
+      <span id="toastIcon" class="w-7 h-7 rounded-full bg-amber-500/15 text-amber-600 flex items-center justify-center shrink-0 font-bold">✦</span>
+      <span id="toastMessage" class="flex-1 leading-snug">Ready</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       INSTALL SHORTCUT GUIDE MODAL
+       ===================================================================== -->
+  <div id="installModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-end sm:items-center justify-center p-4">
+    <div class="app-card w-full max-w-md p-5 sm:p-6 space-y-4">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-amber-500/15 flex items-center justify-center shrink-0">
+            <svg viewBox="0 0 48 48" class="w-7 h-7">
+              <path d="M24 39c-9.5-6.6-15-11.8-15-18a8.4 8.4 0 0 1 15-5.2A8.4 8.4 0 0 1 39 21c0 6.2-5.5 11.4-15 18z" fill="#E11D48"/>
+              <path d="M24 17c2.4 3.2 4 5.6 4 8a4 4 0 0 1-8 0c0-2.4 1.6-4.8 4-8z" fill="#FBBF24"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold">Add to Home Screen</h3>
+            <p class="text-xs" style="color: var(--text-secondary);">Install Pulse &amp; Lean as an offline app shortcut</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeInstallModal()" class="btn-secondary w-10 h-10 !min-h-0 flex items-center justify-center text-sm font-bold cursor-pointer">✕</button>
+      </div>
+
+      <div class="app-subcard p-3.5 text-xs space-y-2.5 leading-relaxed" style="color: var(--text-secondary);">
+        <p><strong style="color: var(--text-primary);">Android (Chrome / Edge):</strong> Tap the browser menu (<strong>⋮</strong>) at the top right, then select <strong>&ldquo;Add to Home screen&rdquo;</strong> or <strong>&ldquo;Install app&rdquo;</strong>.</p>
+        <p><strong style="color: var(--text-primary);">iPhone / iPad (Safari):</strong> Tap the <strong>Share</strong> icon at the bottom bar, scroll down, and tap <strong>&ldquo;Add to Home Screen&rdquo;</strong>.</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2.5">
+        <button type="button" onclick="downloadStandaloneHtml()" class="btn-secondary px-3 text-xs font-bold cursor-pointer">
+          Save Offline File
+        </button>
+        <button type="button" onclick="closeInstallModal()" class="btn-primary px-3 text-xs font-bold cursor-pointer">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MAIN MOBILE-FIRST CONTAINER
+       ===================================================================== -->
+  <div class="w-full max-w-2xl mx-auto px-4 pt-4 sm:px-6 sm:pt-6">
+
+    <!-- Top Header Bar (Clean Editorial Recipe/Wellness Style) -->
+    <header class="flex items-center justify-between gap-2 mb-5">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-11 h-11 rounded-2xl app-card flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 48 48" class="w-7 h-7" aria-hidden="true">
+            <path d="M24 39c-9.5-6.6-15-11.8-15-18a8.4 8.4 0 0 1 15-5.2A8.4 8.4 0 0 1 39 21c0 6.2-5.5 11.4-15 18z" fill="#E11D48"/>
+            <path d="M24 18c2.2 3 3.6 5.2 3.6 7.4a3.6 3.6 0 0 1-7.2 0c0-2.2 1.4-4.4 3.6-7.4z" fill="#FBBF24"/>
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight truncate">Pulse &amp; Lean</h1>
+          <p class="text-xs truncate" style="color: var(--text-secondary);">60s Heart Rate &amp; Fat-Loss Tracker</p>
+        </div>
+      </div>
+
+      <!-- Theme Switcher (Phone Sync / Light / Night) + Share + Install -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button
+          id="themeToggleBtn"
+          type="button"
+          onclick="cycleThemePreference()"
+          class="btn-secondary !min-h-[42px] px-3 text-xs flex items-center gap-1.5 cursor-pointer"
+          title="Switch theme (Auto Phone Sync / Light / Night)"
+        >
+          <span id="themeIcon">◐</span>
+          <span id="themeLabel">Auto</span>
+        </button>
+
+        <button
+          type="button"
+          onclick="shareDailySummary()"
+          class="btn-secondary !min-h-[42px] w-[42px] flex items-center justify-center cursor-pointer"
+          title="Share Daily Progress"
+          aria-label="Share Daily Progress"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+          </svg>
+        </button>
+
+        <button
+          id="installAppBtn"
+          type="button"
+          onclick="handleInstallClick()"
+          class="btn-primary !min-h-[42px] px-3.5 text-xs flex items-center gap-1.5 cursor-pointer"
+        >
+          <span>+ App</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- =====================================================================
+         HERO SUMMARY CARDS (FAT-LOSS CALORIES & LATEST 60s HEART RATE)
+         ===================================================================== -->
+    <section aria-label="Daily Overview" class="grid grid-cols-2 gap-3 mb-5">
+      <!-- Remaining Fat-Loss Calorie Budget Card -->
+      <div class="app-card p-4 flex flex-col justify-between cursor-pointer" onclick="switchMainTab('calories')">
+        <div class="flex items-center justify-between gap-2">
+          <span class="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-600 flex items-center justify-center font-bold text-base">🔥</span>
+          <span id="heroDeficitTag" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400">
+            Fat Loss
+          </span>
+        </div>
+        <div class="mt-3">
+          <div class="text-xs font-medium" style="color: var(--text-secondary);">Calories Left</div>
+          <div class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-0.5">
+            <span id="heroCaloriesLeft">—</span>
+          </div>
+          <div id="heroCalorieSub" class="text-[11px] mt-1 truncate" style="color: var(--text-muted);">
+            Set profile to calculate
+          </div>
+        </div>
+      </div>
+
+      <!-- 60-Second Heart Rate & Fat-Burn Zone Card -->
+      <div class="app-card p-4 flex flex-col justify-between cursor-pointer" onclick="switchMainTab('heart')">
+        <div class="flex items-center justify-between gap-2">
+          <span class="w-9 h-9 rounded-xl bg-rose-500/15 text-rose-600 flex items-center justify-center font-bold text-base">♥</span>
+          <span id="heroFatBurnZoneTag" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-700 dark:text-rose-400">
+            60s Pulse
+          </span>
+        </div>
+        <div class="mt-3">
+          <div class="text-xs font-medium" style="color: var(--text-secondary);">Measured Pulse</div>
+          <div class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-0.5">
+            <span id="heroBpmVal">--</span> <span class="text-xs font-semibold" style="color: var(--text-secondary);">BPM</span>
+          </div>
+          <div id="heroZoneSub" class="text-[11px] mt-1 truncate" style="color: var(--text-muted);">
+            Tap for 60s flashlight scan
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         PRIMARY SECTION PILL TABS (HEART RATE vs FAT-LOSS CALORIES)
+         ===================================================================== -->
+    <nav aria-label="Primary Sections" class="grid grid-cols-2 gap-2.5 mb-5">
+      <button id="tabBtn-heart" type="button" onclick="switchMainTab('heart')" class="pill-tab active flex items-center justify-center gap-2 cursor-pointer">
+        <span>♥ 60s Heart Rate</span>
+      </button>
+      <button id="tabBtn-calories" type="button" onclick="switchMainTab('calories')" class="pill-tab flex items-center justify-center gap-2 cursor-pointer">
+        <span>🔥 Fat-Loss Calories</span>
+      </button>
+    </nav>
+
+    <!-- =====================================================================
+         SECTION 1: 60-SECOND CAMERA + FLASHLIGHT HEART RATE & FAT-BURN ZONES
+         ===================================================================== -->
+    <section id="section-heart" class="space-y-4">
+      <!-- 60-Second Flashlight PPG Scanner Card -->
+      <div class="app-card p-5">
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <div>
+            <h2 class="text-base sm:text-lg font-extrabold">60-Second Flashlight Pulse</h2>
+            <p class="text-xs mt-0.5" style="color: var(--text-secondary);">
+              Place your fingertip gently over the rear camera &amp; LED flashlight for a full 60-second reading.
+            </p>
+          </div>
+          <span id="scanTimerBadge" class="px-3 py-1 rounded-full text-xs font-extrabold bg-rose-500/15 text-rose-600 shrink-0">
+            60s
+          </span>
+        </div>
+
+        <!-- Circular Countdown Ring + Camera Preview + Live BPM -->
+        <div class="app-subcard p-4 my-4 flex flex-col items-center text-center relative">
+          <video id="hrVideo" playsinline muted class="w-1 h-1 opacity-0 absolute pointer-events-none"></video>
+
+          <div class="relative w-32 h-32 flex items-center justify-center mb-3">
+            <!-- SVG 60s Progress Ring -->
+            <svg class="w-32 h-32 -rotate-90" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="52" stroke="currentColor" stroke-width="8" fill="none" class="opacity-15" />
+              <circle
+                id="scanRingProgress"
+                cx="60"
+                cy="60"
+                r="52"
+                stroke="#E11D48"
+                stroke-width="8"
+                stroke-linecap="round"
+                fill="none"
+                stroke-dasharray="326.7"
+                stroke-dashoffset="326.7"
+                style="transition: stroke-dashoffset 0.25s linear;"
+              />
+            </svg>
+            <canvas id="hrSampleCanvas" width="84" height="84" class="w-20 h-20 rounded-full object-cover absolute bg-zinc-900 border-2 border-white/20"></canvas>
+          </div>
+
+          <div class="flex items-baseline justify-center gap-1.5">
+            <span id="hrHeartPulseIcon" class="text-xl text-rose-600">♥</span>
+            <span id="liveBpmNumber" class="text-4xl font-extrabold tracking-tight">--</span>
+            <span class="text-xs font-bold uppercase" style="color: var(--text-secondary);">BPM</span>
+          </div>
+
+          <div id="scanCountdownText" class="text-xs font-bold text-rose-600 mt-1">
+            Ready for 60-second scan
+          </div>
+          <p id="fingerDetectionHint" class="text-[11px] mt-1" style="color: var(--text-secondary);">
+            Flashlight turns on automatically when scan starts
+          </p>
+
+          <!-- Live Red-Channel Waveform -->
+          <div class="w-full mt-3 pt-3 border-t" style="border-color: var(--border-card);">
+            <canvas id="ppgWaveCanvas" class="w-full h-20 rounded-xl"></canvas>
+          </div>
+        </div>
+
+        <!-- Large Touch Target Start / Stop Buttons -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <button id="start60sScanBtn" type="button" onclick="start60SecondHeartScan()" class="btn-primary px-4 text-sm flex items-center justify-center gap-2 cursor-pointer">
+            <span>🔦 Start 60s Flashlight Scan</span>
+          </button>
+          <button id="stop60sScanBtn" type="button" onclick="stop60SecondHeartScan(true)" class="btn-secondary px-4 text-sm flex items-center justify-center gap-2 cursor-pointer">
+            <span>Stop &amp; Torch Off</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Personalized Fat-Burn Heart Rate Zones Card (with Independent Voice/Type Toggle) -->
+      <div class="app-card p-5">
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <div>
+            <h3 class="text-base font-extrabold">Fat-Burn Heart Rate Zones</h3>
+            <p class="text-xs" style="color: var(--text-secondary);">Karvonen target zones tailored for fat oxidation</p>
+          </div>
+          <button type="button" onclick="shareHeartRateResult()" class="btn-secondary !min-h-[38px] px-3 text-xs font-bold cursor-pointer">
+            Share HR
+          </button>
+        </div>
+
+        <!-- Resting HR Input with Independent Speak / Type Toggle -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between gap-2 mb-1.5">
+            <label for="restingHrInput" class="text-xs font-bold" style="color: var(--text-secondary);">
+              Resting Heart Rate (BPM)
+            </label>
+            <div class="mode-switch" role="group" aria-label="Resting Heart Rate input mode">
+              <button type="button" id="mode-type-restingHrInput" onclick="setFieldInputMode('restingHrInput', 'type')" class="mode-switch-btn active">
+                ⌨ Type
+              </button>
+              <button type="button" id="mode-speak-restingHrInput" onclick="setFieldInputMode('restingHrInput', 'speak', 'number')" class="mode-switch-btn">
+                🎤 Speak
+              </button>
+            </div>
+          </div>
+          <input
+            id="restingHrInput"
+            type="number"
+            min="35"
+            max="130"
+            placeholder="e.g., 64 (or run 60s scan above)"
+            oninput="handleRestingHrChange()"
+            class="app-input w-full px-4 text-sm font-semibold"
+          />
+        </div>
+
+        <div id="fatBurnZonesContainer" class="space-y-2.5"></div>
+      </div>
+
+      <!-- Recent 60-Second Heart Rate History List -->
+      <div class="app-card p-5">
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <h3 class="text-base font-extrabold">Saved 60s Pulse Logs</h3>
+          <button type="button" onclick="clearHrHistory()" class="text-xs font-bold text-rose-600 cursor-pointer">
+            Clear All
+          </button>
+        </div>
+        <div id="hrHistoryList" class="space-y-2.5"></div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 2: FAT-LOSS CALORIE CALCULATOR & MEAL CARD LIST
+         ===================================================================== -->
+    <section id="section-calories" class="hidden space-y-4">
+      <!-- Fat-Loss Body & Deficit Calculator Card -->
+      <div class="app-card p-5">
+        <div class="flex items-center justify-between gap-2 mb-4">
+          <div>
+            <h2 class="text-base sm:text-lg font-extrabold">Fat-Loss Calorie Calculator</h2>
+            <p class="text-xs mt-0.5" style="color: var(--text-secondary);">
+              Type or speak each field independently to compute your fat-loss target.
+            </p>
+          </div>
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-700 dark:text-amber-400">
+            Offline Saved
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-4">
+          <!-- Biological Sex -->
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-1.5">
+              <label for="profSex" class="text-xs font-bold" style="color: var(--text-secondary);">Sex</label>
+              <div class="mode-switch">
+                <button type="button" id="mode-type-profSex" onclick="setFieldInputMode('profSex', 'type')" class="mode-switch-btn active">⌨ Type</button>
+                <button type="button" id="mode-speak-profSex" onclick="setFieldInputMode('profSex', 'speak', 'sex')" class="mode-switch-btn">🎤 Speak</button>
+              </div>
+            </div>
+            <select id="profSex" onchange="handleProfileFieldChange()" class="app-input w-full px-3.5 text-sm font-semibold">
+              <option value="" disabled selected>Select sex</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+            </select>
+          </div>
+
+          <!-- Age -->
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-1.5">
+              <label for="profAge" class="text-xs font-bold" style="color: var(--text-secondary);">Age (years)</label>
+              <div class="mode-switch">
+                <button type="button" id="mode-type-profAge" onclick="setFieldInputMode('profAge', 'type')" class="mode-switch-btn active">⌨ Type</button>
+                <button type="button" id="mode-speak-profAge" onclick="setFieldInputMode('profAge', 'speak', 'number')" class="mode-switch-btn">🎤 Speak</button>
+              </div>
+            </div>
+            <input id="profAge" type="number" min="15" max="100" placeholder="e.g., 29" oninput="handleProfileFieldChange()" class="app-input w-full px-3.5 text-sm font-semibold" />
+          </div>
+
+          <!-- Weight -->
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-1.5">
+              <label for="profWeight" class="text-xs font-bold" style="color: var(--text-secondary);">Weight (kg)</label>
+              <div class="mode-switch">
+                <button type="button" id="mode-type-profWeight" onclick="setFieldInputMode('profWeight', 'type')" class="mode-switch-btn active">⌨ Type</button>
+                <button type="button" id="mode-speak-profWeight" onclick="setFieldInputMode('profWeight', 'speak', 'number')" class="mode-switch-btn">🎤 Speak</button>
+              </div>
+            </div>
+            <input id="profWeight" type="number" min="35" max="250" step="0.1" placeholder="e.g., 72" oninput="handleProfileFieldChange()" class="app-input w-full px-3.5 text-sm font-semibold" />
+          </div>
+
+          <!-- Height -->
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-1.5">
+              <label for="profHeight" class="text-xs font-bold" style="color: var(--text-secondary);">Height (cm)</label>
+              <div class="mode-switch">
+                <button type="button" id="mode-type-profHeight" onclick="setFieldInputMode('profHeight', 'type')" class="mode-switch-btn active">⌨ Type</button>
+                <button type="button" id="mode-speak-profHeight" onclick="setFieldInputMode('profHeight', 'speak', 'number')" class="mode-switch-btn">🎤 Speak</button>
+              </div>
+            </div>
+            <input id="profHeight" type="number" min="120" max="230" placeholder="e.g., 170" oninput="handleProfileFieldChange()" class="app-input w-full px-3.5 text-sm font-semibold" />
+          </div>
+
+          <!-- Activity Level -->
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-1.5">
+              <label for="profActivity" class="text-xs font-bold" style="color: var(--text-secondary);">Activity Level</label>
+              <div class="mode-switch">
+                <button type="button" id="mode-type-profActivity" onclick="setFieldInputMode('profActivity', 'type')" class="mode-switch-btn active">⌨ Type</button>
+                <button type="button" id="mode-speak-profActivity" onclick="setFieldInputMode('profActivity', 'speak', 'activity')" class="mode-switch-btn">🎤 Speak</button>
+              </div>
+            </div>
+            <select id="profActivity" onchange="handleProfileFieldChange()" class="app-input w-full px-3.5 text-sm font-semibold">
+              <option value="" disabled selected>Select activity</option>
+              <option value="1.2">Inactive / Desk (×1.2)</option>
+              <option value="1.375">Lightly Active (×1.375)</option>
+              <option value="1.55">Moderately Active (×1.55)</option>
+              <option value="1.725">Very Active (×1.725)</option>
+            </select>
+          </div>
+
+          <!-- Daily Fat-Loss Deficit -->
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-1.5">
+              <label for="profDeficit" class="text-xs font-bold" style="color: var(--text-secondary);">Fat-Loss Deficit (kcal)</label>
+              <div class="mode-switch">
+                <button type="button" id="mode-type-profDeficit" onclick="setFieldInputMode('profDeficit', 'type')" class="mode-switch-btn active">⌨ Type</button>
+                <button type="button" id="mode-speak-profDeficit" onclick="setFieldInputMode('profDeficit', 'speak', 'number')" class="mode-switch-btn">🎤 Speak</button>
+              </div>
+            </div>
+            <input id="profDeficit" type="number" min="0" max="1000" step="25" placeholder="e.g., 450" oninput="handleProfileFieldChange()" class="app-input w-full px-3.5 text-sm font-semibold" />
+          </div>
+        </div>
+
+        <!-- Quick Deficit Preset Pills -->
+        <div class="flex flex-wrap gap-2 mb-4">
+          <button type="button" onclick="applyDeficitPreset(300)" class="pill-tab !min-h-[38px] px-3 text-xs cursor-pointer">-300 Gentle</button>
+          <button type="button" onclick="applyDeficitPreset(500)" class="pill-tab !min-h-[38px] px-3 text-xs cursor-pointer">-500 Fat Loss</button>
+          <button type="button" onclick="applyDeficitPreset(650)" class="pill-tab !min-h-[38px] px-3 text-xs cursor-pointer">-650 Lean Cut</button>
+        </div>
+
+        <!-- 3-Column Fat-Loss Metrics Summary -->
+        <div class="grid grid-cols-3 gap-2.5 text-center">
+          <div class="app-subcard p-3">
+            <div class="text-[11px] font-medium" style="color: var(--text-secondary);">Maintenance</div>
+            <div id="calcMaintVal" class="text-base sm:text-lg font-extrabold mt-0.5">—</div>
+            <div class="text-[10px]" style="color: var(--text-muted);">kcal/day</div>
+          </div>
+          <div class="app-subcard p-3">
+            <div class="text-[11px] font-medium" style="color: var(--text-secondary);">Fat-Loss Goal</div>
+            <div id="calcTargetVal" class="text-base sm:text-lg font-extrabold text-amber-600 mt-0.5">—</div>
+            <div class="text-[10px]" style="color: var(--text-muted);">kcal/day</div>
+          </div>
+          <div class="app-subcard p-3">
+            <div class="text-[11px] font-medium" style="color: var(--text-secondary);">Weekly Loss</div>
+            <div id="calcWeeklyLossVal" class="text-base sm:text-lg font-extrabold text-emerald-600 mt-0.5">—</div>
+            <div class="text-[10px]" style="color: var(--text-muted);">kg / week</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Meal Card (Independent Type / Speak Toggle per Input) -->
+      <div class="app-card p-5">
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <h3 class="text-base font-extrabold">Log Meal or Food</h3>
+          <button type="button" onclick="shareCalorieSummary()" class="btn-secondary !min-h-[38px] px-3 text-xs font-bold cursor-pointer">
+            Share Calories
+          </button>
+        </div>
+
+        <form onsubmit="handleAddMealSubmit(event)" class="space-y-3">
+          <!-- Meal Category Pills (Inspired by Screenshot Category Pills) -->
+          <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+            <button type="button" data-meal-cat="Breakfast" onclick="selectNewMealCategory('Breakfast')" class="new-meal-cat-btn pill-tab active !min-h-[38px] px-3.5 text-xs shrink-0 cursor-pointer">Breakfast</button>
+            <button type="button" data-meal-cat="Lunch" onclick="selectNewMealCategory('Lunch')" class="new-meal-cat-btn pill-tab !min-h-[38px] px-3.5 text-xs shrink-0 cursor-pointer">Lunch</button>
+            <button type="button" data-meal-cat="Dinner" onclick="selectNewMealCategory('Dinner')" class="new-meal-cat-btn pill-tab !min-h-[38px] px-3.5 text-xs shrink-0 cursor-pointer">Dinner</button>
+            <button type="button" data-meal-cat="Snack" onclick="selectNewMealCategory('Snack')" class="new-meal-cat-btn pill-tab !min-h-[38px] px-3.5 text-xs shrink-0 cursor-pointer">Snack</button>
+          </div>
+
+          <!-- Meal Name Input + Independent Speak/Type Toggle -->
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-1.5">
+              <label for="mealNameInput" class="text-xs font-bold" style="color: var(--text-secondary);">Food / Meal Name</label>
+              <div class="mode-switch">
+                <button type="button" id="mode-type-mealNameInput" onclick="setFieldInputMode('mealNameInput', 'type')" class="mode-switch-btn active">⌨ Type</button>
+                <button type="button" id="mode-speak-mealNameInput" onclick="setFieldInputMode('mealNameInput', 'speak', 'text')" class="mode-switch-btn">🎤 Speak</button>
+              </div>
+            </div>
+            <input id="mealNameInput" type="text" required placeholder="e.g., Grilled Salmon & Avocado Salad" class="app-input w-full px-3.5 text-sm font-medium" />
+          </div>
+
+          <!-- Calories + Protein Inputs (Each with Independent Speak/Type Toggle) -->
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <div class="flex items-center justify-between gap-1 mb-1.5">
+                <label for="mealKcalInput" class="text-xs font-bold" style="color: var(--text-secondary);">Calories</label>
+                <div class="mode-switch">
+                  <button type="button" id="mode-type-mealKcalInput" onclick="setFieldInputMode('mealKcalInput', 'type')" class="mode-switch-btn active">⌨</button>
+                  <button type="button" id="mode-speak-mealKcalInput" onclick="setFieldInputMode('mealKcalInput', 'speak', 'number')" class="mode-switch-btn">🎤</button>
+                </div>
+              </div>
+              <input id="mealKcalInput" type="number" min="1" max="4000" required placeholder="e.g., 420" class="app-input w-full px-3.5 text-sm font-semibold" />
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between gap-1 mb-1.5">
+                <label for="mealProteinInput" class="text-xs font-bold" style="color: var(--text-secondary);">Protein (g)</label>
+                <div class="mode-switch">
+                  <button type="button" id="mode-type-mealProteinInput" onclick="setFieldInputMode('mealProteinInput', 'type')" class="mode-switch-btn active">⌨</button>
+                  <button type="button" id="mode-speak-mealProteinInput" onclick="setFieldInputMode('mealProteinInput', 'speak', 'number')" class="mode-switch-btn">🎤</button>
+                </div>
+              </div>
+              <input id="mealProteinInput" type="number" min="0" max="300" placeholder="e.g., 32" class="app-input w-full px-3.5 text-sm font-semibold" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary w-full text-sm cursor-pointer">
+            + Add to Today&apos;s Meals
+          </button>
+        </form>
+      </div>
+
+      <!-- Meal List Card (Inspired by Screenshot's "All recipes" Clean List with Search & Filter Pills) -->
+      <div class="app-card p-5">
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <h3 class="text-base font-extrabold">Today&apos;s Meals</h3>
+          <button type="button" onclick="clearAllMeals()" class="text-xs font-bold text-rose-600 cursor-pointer">
+            Reset Today
+          </button>
+        </div>
+
+        <!-- Search Input with Independent Speak/Type Toggle -->
+        <div class="mb-3">
+          <div class="flex items-center justify-between gap-2 mb-1.5">
+            <label for="mealSearchInput" class="text-xs font-bold" style="color: var(--text-secondary);">Filter Logged Meals</label>
+            <div class="mode-switch">
+              <button type="button" id="mode-type-mealSearchInput" onclick="setFieldInputMode('mealSearchInput', 'type')" class="mode-switch-btn active">⌨ Type</button>
+              <button type="button" id="mode-speak-mealSearchInput" onclick="setFieldInputMode('mealSearchInput', 'speak', 'text')" class="mode-switch-btn">🎤 Speak</button>
+            </div>
+          </div>
+          <input id="mealSearchInput" type="text" placeholder="Search logged meals..." oninput="renderMealsList()" class="app-input w-full px-3.5 text-sm" />
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-2">
+          <button type="button" data-filter-cat="All" onclick="setMealFilterCategory('All')" class="filter-cat-btn pill-tab active !min-h-[36px] px-3.5 text-xs shrink-0 cursor-pointer">All</button>
+          <button type="button" data-filter-cat="Breakfast" onclick="setMealFilterCategory('Breakfast')" class="filter-cat-btn pill-tab !min-h-[36px] px-3.5 text-xs shrink-0 cursor-pointer">Breakfast</button>
+          <button type="button" data-filter-cat="Lunch" onclick="setMealFilterCategory('Lunch')" class="filter-cat-btn pill-tab !min-h-[36px] px-3.5 text-xs shrink-0 cursor-pointer">Lunch</button>
+          <button type="button" data-filter-cat="Dinner" onclick="setMealFilterCategory('Dinner')" class="filter-cat-btn pill-tab !min-h-[36px] px-3.5 text-xs shrink-0 cursor-pointer">Dinner</button>
+          <button type="button" data-filter-cat="Snack" onclick="setMealFilterCategory('Snack')" class="filter-cat-btn pill-tab !min-h-[36px] px-3.5 text-xs shrink-0 cursor-pointer">Snack</button>
+        </div>
+
+        <!-- Meal Cards Container -->
+        <div id="mealsCardList" class="space-y-2.5"></div>
+
+        <!-- Calorie Budget Progress Footer -->
+        <div class="mt-4 pt-3 border-t" style="border-color: var(--border-card);">
+          <div class="flex items-center justify-between text-xs font-bold mb-1.5">
+            <span>Eaten: <span id="footerEatenKcal">0</span> kcal</span>
+            <span id="footerRemainingStatus" class="text-emerald-600">Set profile for target</span>
+          </div>
+          <div class="h-2.5 w-full rounded-full overflow-hidden" style="background-color: var(--bg-subtle);">
+            <div id="calorieBudgetBar" class="h-full rounded-full transition-all duration-300" style="width: 0%; background-color: #F59E0B;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- =====================================================================
+       APPLICATION LOGIC: OFFLINE STORAGE (localStorage + IndexedDB),
+       VOICE DICTATION, 60s FLASHLIGHT HEART RATE, FAT-LOSS CALORIES & SHARE
+       ===================================================================== -->
+  <script>
+    const LS_KEY = 'pulse_lean_pwa_state_v1';
+    const IDB_NAME = 'PulseLeanOfflineDB';
+    const IDB_STORE = 'appStateStore';
+
+    const DEFAULT_STATE = {
+      activeTab: 'heart',
+      themeMode: 'auto', // 'auto' | 'light' | 'dark'
+      profile: {
+        sex: '',
+        age: '',
+        weightKg: '',
+        heightCm: '',
+        activityFactor: '',
+        deficitKcal: '',
+        restingHr: ''
+      },
+      newMealCategory: 'Breakfast',
+      filterMealCategory: 'All',
+      meals: [],
+      hrLogs: []
+    };
+
+    let appState = loadFromLocalStorage();
+    let deferredPrompt = null;
+
+    // SpeechRecognition state
+    let activeRecognition = null;
+    let activeVoiceFieldId = null;
+
+    // 60-Second Camera + Flashlight PPG Scanner state
+    let hrStream = null;
+    let hrTrack = null;
+    let hrAnimFrame = null;
+    let hrCountdownInterval = null;
+    let hrSamples = [];
+    let wavePoints = new Array(64).fill(0.5);
+
+    /* =====================================================================
+       1. INDEXEDDB + LOCALSTORAGE DUAL OFFLINE PERSISTENCE
+       ===================================================================== */
+    function openOfflineDB() {
+      return new Promise((resolve) => {
+        if (!('indexedDB' in window)) {
+          resolve(null);
+          return;
+        }
+        const req = indexedDB.open(IDB_NAME, 1);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(IDB_STORE)) {
+            db.createObjectStore(IDB_STORE);
+          }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => resolve(null);
+      });
+    }
+
+    async function syncToIndexedDB(stateObj) {
+      try {
+        const db = await openOfflineDB();
+        if (!db) return;
+        const tx = db.transaction(IDB_STORE, 'readwrite');
+        tx.objectStore(IDB_STORE).put(stateObj, 'latestState');
+      } catch (_) {}
+    }
+
+    async function restoreFromIndexedDBIfNeeded() {
+      try {
+        const db = await openOfflineDB();
+        if (!db) return;
+        const tx = db.transaction(IDB_STORE, 'readonly');
+        const req = tx.objectStore(IDB_STORE).get('latestState');
+        req.onsuccess = () => {
+          if (req.result && !localStorage.getItem(LS_KEY)) {
+            appState = mergeWithDefaults(req.result);
+            localStorage.setItem(LS_KEY, JSON.stringify(appState));
+            applyTheme();
+            renderAll();
+          }
+        };
+      } catch (_) {}
+    }
+
+    function mergeWithDefaults(parsed) {
+      return {
+        ...structuredClone(DEFAULT_STATE),
+        ...parsed,
+        profile: { ...DEFAULT_STATE.profile, ...(parsed.profile || {}) },
+        meals: Array.isArray(parsed.meals) ? parsed.meals : [],
+        hrLogs: Array.isArray(parsed.hrLogs) ? parsed.hrLogs : []
+      };
+    }
+
+    function loadFromLocalStorage() {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (!raw) return structuredClone(DEFAULT_STATE);
+        return mergeWithDefaults(JSON.parse(raw));
+      } catch (_) {
+        return structuredClone(DEFAULT_STATE);
+      }
+    }
+
+    function persistState() {
+      try {
+        localStorage.setItem(LS_KEY, JSON.stringify(appState));
+      } catch (_) {}
+      syncToIndexedDB(appState);
+    }
+
+    /* =====================================================================
+       2. PWA MANIFEST, SERVICE WORKER & HOME SCREEN INSTALLATION
+       ===================================================================== */
+    function initPWA() {
+      const appIconSvg = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <rect width="512" height="512" rx="112" fill="#1C1C1E"/>
+          <circle cx="256" cy="256" r="176" fill="#27272A"/>
+          <path d="M256 368c-68-47-108-84-108-128a60 60 0 0 1 108-37 60 60 0 0 1 108 37c0 44-40 81-108 128z" fill="#E11D48"/>
+          <path d="M256 210c16 22 26 38 26 54a26 26 0 0 1-52 0c0-16 10-32 26-54z" fill="#FBBF24"/>
+        </svg>
+      `.trim();
+
+      const iconUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(appIconSvg);
+      const appleIcon = document.getElementById('appleTouchIcon');
+      const favIcon = document.getElementById('faviconLink');
+      if (appleIcon) appleIcon.href = iconUrl;
+      if (favIcon) favIcon.href = iconUrl;
+
+      const manifest = {
+        name: 'Pulse & Lean — Heart Rate & Fat-Loss Tracker',
+        short_name: 'Pulse & Lean',
+        description: '60-second flashlight heart rate monitor & voice-enabled fat-loss calorie tracker.',
+        start_url: location.href,
+        display: 'standalone',
+        orientation: 'portrait',
+        background_color: '#F8F7F4',
+        theme_color: '#F8F7F4',
+        icons: [
+          { src: iconUrl, sizes: '192x192', type: 'image/svg+xml', purpose: 'any maskable' },
+          { src: iconUrl, sizes: '512x512', type: 'image/svg+xml', purpose: 'any maskable' }
+        ]
+      };
+
+      try {
+        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+        const link = document.getElementById('pwaManifestLink');
+        if (link) link.href = URL.createObjectURL(blob);
+      } catch (_) {}
+
+      if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+        const swScript = `
+          const CACHE_NAME = 'pulse-lean-offline-v1';
+          self.addEventListener('install', (e) => {
+            self.skipWaiting();
+          });
+          self.addEventListener('activate', (e) => {
+            e.waitUntil(self.clients.claim());
+          });
+          self.addEventListener('fetch', (e) => {
+            e.respondWith(
+              fetch(e.request)
+                .then((res) => {
+                  const clone = res.clone();
+                  caches.open(CACHE_NAME).then((c) => c.put(e.request, clone)).catch(() => {});
+                  return res;
+                })
+                .catch(() => caches.match(e.request))
+            );
+          });
+        `;
+        try {
+          const swBlob = new Blob([swScript], { type: 'application/javascript' });
+          navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
+        } catch (_) {}
+      }
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+      });
+    }
+
+    async function handleInstallClick() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const result = await deferredPrompt.userChoice.catch(() => null);
+        deferredPrompt = null;
+        if (result && result.outcome === 'accepted') {
+          showToast('Installing Pulse & Lean to your home screen!');
+          return;
+        }
+      }
+      document.getElementById('installModal')?.classList.remove('hidden');
+    }
+
+    function closeInstallModal() {
+      document.getElementById('installModal')?.classList.add('hidden');
+    }
+
+    function downloadStandaloneHtml() {
+      const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast('Saved index.html for offline or HTTPS hosting.');
+    }
+
+    /* =====================================================================
+       3. LIGHT / NIGHT MODE SYNCED WITH PHONE THEME
+       ===================================================================== */
+    const systemDarkMedia = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function applyTheme() {
+      const mode = appState.themeMode || 'auto';
+      const isDark = mode === 'dark' || (mode === 'auto' && systemDarkMedia.matches);
+      document.documentElement.classList.toggle('dark', isDark);
+
+      const metaTheme = document.getElementById('metaThemeColor');
+      if (metaTheme) metaTheme.setAttribute('content', isDark ? '#111113' : '#F8F7F4');
+
+      const iconEl = document.getElementById('themeIcon');
+      const labelEl = document.getElementById('themeLabel');
+      if (iconEl && labelEl) {
+        if (mode === 'auto') {
+          iconEl.textContent = '◐';
+          labelEl.textContent = 'Auto';
+        } else if (mode === 'light') {
+          iconEl.textContent = '☀';
+          labelEl.textContent = 'Light';
+        } else {
+          iconEl.textContent = '☾';
+          labelEl.textContent = 'Night';
+        }
+      }
+    }
+
+    function cycleThemePreference() {
+      const order = ['auto', 'light', 'dark'];
+      const next = order[(order.indexOf(appState.themeMode || 'auto') + 1) % order.length];
+      appState.themeMode = next;
+      persistState();
+      applyTheme();
+      showToast(`Theme set to ${next === 'auto' ? 'Auto (Phone Theme)' : next === 'light' ? 'Light Mode' : 'Night Mode'}`);
+    }
+
+    systemDarkMedia.addEventListener('change', () => {
+      if ((appState.themeMode || 'auto') === 'auto') applyTheme();
+    });
+
+    /* =====================================================================
+       4. INDEPENDENT PER-FIELD VOICE-TO-TEXT DICTATION (WEB SPEECH API)
+       ===================================================================== */
+    function stopActiveVoiceRecognition() {
+      if (activeRecognition) {
+        try { activeRecognition.stop(); } catch (_) {}
+        activeRecognition = null;
+      }
+      if (activeVoiceFieldId) {
+        updateFieldModeVisuals(activeVoiceFieldId, 'type', false);
+        activeVoiceFieldId = null;
+      }
+    }
+
+    function updateFieldModeVisuals(fieldId, mode, isListening) {
+      const typeBtn = document.getElementById(`mode-type-${fieldId}`);
+      const speakBtn = document.getElementById(`mode-speak-${fieldId}`);
+      if (!typeBtn || !speakBtn) return;
+
+      typeBtn.classList.toggle('active', mode === 'type');
+      speakBtn.classList.toggle('active', mode === 'speak' && !isListening);
+      speakBtn.classList.toggle('listening', isListening);
+    }
+
+    function parseSpokenNumber(transcript) {
+      const cleaned = transcript.toLowerCase().replace(/,/g, '').trim();
+      const digitMatch = cleaned.match(/-?\d+(\.\d+)?/);
+      if (digitMatch) return parseFloat(digitMatch[0]);
+
+      const wordMap = {
+        zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5,
+        six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
+        eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15,
+        sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19,
+        twenty: 20, thirty: 30, forty: 40, fifty: 50,
+        sixty: 60, seventy: 70, eighty: 80, ninety: 90, hundred: 100
+      };
+
+      const tokens = cleaned.split(/[\s-]+/);
+      let total = 0;
+      let current = 0;
+      let found = false;
+
+      for (const word of tokens) {
+        if (word in wordMap) {
+          found = true;
+          const val = wordMap[word];
+          if (val === 100) {
+            current = (current || 1) * 100;
+          } else {
+            current += val;
+          }
+        }
+      }
+      total += current;
+      return found ? total : null;
+    }
+
+    function setFieldInputMode(fieldId, mode, expectedType = 'text') {
+      const fieldEl = document.getElementById(fieldId);
+      if (!fieldEl) return;
+
+      if (mode === 'type') {
+        if (activeVoiceFieldId === fieldId) stopActiveVoiceRecognition();
+        updateFieldModeVisuals(fieldId, 'type', false);
+        fieldEl.focus();
+        return;
+      }
+
+      // Toggle off if already speaking into this field
+      if (activeVoiceFieldId === fieldId) {
+        stopActiveVoiceRecognition();
+        return;
+      }
+
+      stopActiveVoiceRecognition();
+
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        updateFieldModeVisuals(fieldId, 'type', false);
+        showToast('Voice dictation is not supported in this browser. Use keyboard typing.', true);
+        fieldEl.focus();
+        return;
+      }
+
+      const recognition = new SpeechRec();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      activeRecognition = recognition;
+      activeVoiceFieldId = fieldId;
+      updateFieldModeVisuals(fieldId, 'speak', true);
+      showToast('Listening... Speak your value now.');
+
+      recognition.onresult = (event) => {
+        const transcript = (event.results[0]?.[0]?.transcript || '').trim();
+        if (!transcript) return;
+
+        if (expectedType === 'number') {
+          const parsedNum = parseSpokenNumber(transcript);
+          if (parsedNum !== null) {
+            fieldEl.value = parsedNum;
+            fieldEl.dispatchEvent(new Event('input', { bubbles: true }));
+            showToast(`Heard "${transcript}" → ${parsedNum}`);
+          } else {
+            showToast(`Heard "${transcript}", but couldn't find a number.`, true);
+          }
+        } else if (expectedType === 'sex') {
+          const lower = transcript.toLowerCase();
+          if (lower.includes('female') || lower.includes('woman') || lower.includes('girl')) {
+            fieldEl.value = 'female';
+            fieldEl.dispatchEvent(new Event('change', { bubbles: true }));
+            showToast('Selected Female');
+          } else if (lower.includes('male') || lower.includes('man') || lower.includes('boy')) {
+            fieldEl.value = 'male';
+            fieldEl.dispatchEvent(new Event('change', { bubbles: true }));
+            showToast('Selected Male');
+          } else {
+            showToast(`Say "Male" or "Female" (heard "${transcript}").`, true);
+          }
+        } else if (expectedType === 'activity') {
+          const lower = transcript.toLowerCase();
+          if (lower.includes('inactive') || lower.includes('desk') || lower.includes('sedentary')) {
+            fieldEl.value = '1.2';
+          } else if (lower.includes('light')) {
+            fieldEl.value = '1.375';
+          } else if (lower.includes('very')) {
+            fieldEl.value = '1.725';
+          } else {
+            fieldEl.value = '1.55';
+          }
+          fieldEl.dispatchEvent(new Event('change', { bubbles: true }));
+          showToast(`Activity updated from "${transcript}"`);
+        } else {
+          const formatted = transcript.charAt(0).toUpperCase() + transcript.slice(1);
+          fieldEl.value = formatted;
+          fieldEl.dispatchEvent(new Event('input', { bubbles: true }));
+          showToast(`Dictated: "${formatted}"`);
+        }
+      };
+
+      recognition.onerror = (err) => {
+        if (err.error !== 'aborted') {
+          showToast('Voice input stopped or mic permission blocked.', true);
+        }
+      };
+
+      recognition.onend = () => {
+        if (activeVoiceFieldId === fieldId) {
+          updateFieldModeVisuals(fieldId, 'type', false);
+          activeVoiceFieldId = null;
+          activeRecognition = null;
+        }
+      };
+
+      try {
+        recognition.start();
+      } catch (_) {
+        stopActiveVoiceRecognition();
+      }
+    }
+
+    /* =====================================================================
+       5. 60-SECOND CAMERA + FLASHLIGHT PPG HEART RATE & FAT-BURN ZONES
+       ===================================================================== */
+    async function activateRearTorch(track) {
+      if (!track) return false;
+      try {
+        const caps = typeof track.getCapabilities === 'function' ? track.getCapabilities() : {};
+        if (caps && caps.torch) {
+          await track.applyConstraints({ advanced: [{ torch: true }] });
+          return true;
+        }
+      } catch (_) {}
+
+      try {
+        await track.applyConstraints({ advanced: [{ torch: true }] });
+        return true;
+      } catch (_) {}
+
+      try {
+        await track.applyConstraints({ torch: true });
+        return true;
+      } catch (_) {}
+
+      return false;
+    }
+
+    async function start60SecondHeartScan() {
+      stop60SecondHeartScan(false);
+      hrSamples = [];
+
+      const countdownText = document.getElementById('scanCountdownText');
+      const timerBadge = document.getElementById('scanTimerBadge');
+      const fingerHint = document.getElementById('fingerDetectionHint');
+      const heartIcon = document.getElementById('hrHeartPulseIcon');
+      const ringEl = document.getElementById('scanRingProgress');
+      const circumference = 326.7;
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        showToast('Camera & flashlight access requires HTTPS on a mobile device.', true);
+        return;
+      }
+
+      try {
+        if (countdownText) countdownText.textContent = 'Activating camera & LED flashlight...';
+
+        let stream = null;
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: { exact: 'environment' },
+              width: { ideal: 160 },
+              height: { ideal: 120 }
+            },
+            audio: false
+          });
+        } catch (_) {
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: { ideal: 'environment' },
+              width: { ideal: 160 },
+              height: { ideal: 120 }
+            },
+            audio: false
+          });
+        }
+
+        hrStream = stream;
+        const video = document.getElementById('hrVideo');
+        video.srcObject = stream;
+        await video.play();
+
+        hrTrack = stream.getVideoTracks()[0];
+        await new Promise((r) => setTimeout(r, 250));
+        const torchEnabled = await activateRearTorch(hrTrack);
+
+        if (torchEnabled) {
+          showToast('Flashlight ON! Hold fingertip gently over rear camera & flash for 60s.');
+          if (fingerHint) fingerHint.textContent = 'Flashlight ON — keep finger steady over camera + flash';
+        } else {
+          showToast('Camera started. Cover rear camera lens gently in bright light.');
+          if (fingerHint) fingerHint.textContent = 'Hold fingertip gently over rear camera lens';
+        }
+
+        if (heartIcon) heartIcon.classList.add('heart-beating');
+
+        const scanTotalMs = 60000;
+        const startTime = Date.now();
+        const sampleCanvas = document.getElementById('hrSampleCanvas');
+        const sampleCtx = sampleCanvas.getContext('2d', { willReadFrequently: true });
+
+        hrCountdownInterval = setInterval(() => {
+          const elapsed = Date.now() - startTime;
+          const remainingSec = Math.max(0, Math.ceil((scanTotalMs - elapsed) / 1000));
+          const progressRatio = Math.min(1, elapsed / scanTotalMs);
+
+          if (timerBadge) timerBadge.textContent = `${remainingSec}s`;
+          if (countdownText) countdownText.textContent = `Measuring pulse... ${remainingSec}s remaining`;
+          if (ringEl) ringEl.style.strokeDashoffset = String(circumference * (1 - progressRatio));
+        }, 200);
+
+        const processFrame = () => {
+          if (!hrStream) return;
+          const elapsed = Date.now() - startTime;
+
+          if (video.readyState >= 2) {
+            sampleCtx.drawImage(video, 0, 0, sampleCanvas.width, sampleCanvas.height);
+            const pixels = sampleCtx.getImageData(0, 0, sampleCanvas.width, sampleCanvas.height).data;
+            let redTotal = 0;
+            let greenTotal = 0;
+            let samplesCount = 0;
+
+            for (let i = 0; i < pixels.length; i += 16) {
+              redTotal += pixels[i];
+              greenTotal += pixels[i + 1];
+              samplesCount++;
+            }
+
+            const avgRed = samplesCount > 0 ? redTotal / samplesCount : 0;
+            const avgGreen = samplesCount > 0 ? greenTotal / samplesCount : 0;
+            hrSamples.push({ t: elapsed, v: avgRed });
+
+            const recent = hrSamples.slice(-28).map((s) => s.v);
+            const minR = Math.min(...recent);
+            const maxR = Math.max(...recent);
+            const span = Math.max(0.35, maxR - minR);
+            const norm = Math.max(0.08, Math.min(0.92, (avgRed - minR) / span));
+            pushWavePoint(norm);
+
+            const fingerDetected = avgRed > 115 && avgRed > avgGreen * 1.3;
+            if (fingerHint) {
+              fingerHint.textContent = fingerDetected
+                ? 'Strong red pulse signal detected — stay still'
+                : 'Cover both rear camera & flashlight gently with finger';
+            }
+
+            // Rolling BPM updates every ~1.2s after first 5 seconds
+            if (elapsed > 5000 && hrSamples.length % 25 === 0) {
+              const rollingBpm = computeAccurateBpm(hrSamples.slice(-450));
+              if (rollingBpm) {
+                const liveNum = document.getElementById('liveBpmNumber');
+                if (liveNum) liveNum.textContent = rollingBpm;
+              }
+            }
+          }
+
+          if (elapsed >= scanTotalMs) {
+            const finalBpm = computeAccurateBpm(hrSamples);
+            stop60SecondHeartScan(false);
+            if (finalBpm) {
+              saveCompletedHeartRate(finalBpm);
+            } else {
+              if (countdownText) countdownText.textContent = 'Scan finished — low signal. Try again.';
+              showToast('Could not lock onto a steady pulse. Cover both camera and flash gently.', true);
+            }
+            return;
+          }
+
+          hrAnimFrame = requestAnimationFrame(processFrame);
+        };
+
+        hrAnimFrame = requestAnimationFrame(processFrame);
+      } catch (err) {
+        stop60SecondHeartScan(false);
+        if (countdownText) countdownText.textContent = 'Camera permission required';
+        showToast('Please allow camera access so the flashlight can measure your pulse.', true);
+      }
+    }
+
+    function computeAccurateBpm(samples) {
+      if (!Array.isArray(samples) || samples.length < 40) return null;
+
+      // Detrend slow baseline drift using a sliding window average
+      const detrended = samples.map((item, idx, arr) => {
+        const start = Math.max(0, idx - 10);
+        const end = Math.min(arr.length - 1, idx + 10);
+        let sum = 0;
+        let count = 0;
+        for (let j = start; j <= end; j++) {
+          sum += arr[j].v;
+          count++;
+        }
+        return { t: item.t, v: item.v - sum / count };
+      });
+
+      // 3-point moving average smoothing
+      const smoothed = detrended.map((pt, idx, arr) => {
+        const p0 = arr[Math.max(0, idx - 1)].v;
+        const p1 = pt.v;
+        const p2 = arr[Math.min(arr.length - 1, idx + 1)].v;
+        return { t: pt.t, v: (p0 + p1 + p2) / 3 };
+      });
+
+      // Adaptive peak amplitude threshold
+      const maxAmp = Math.max(...smoothed.map((s) => s.v));
+      const minAmpThreshold = Math.max(0.06, maxAmp * 0.22);
+
+      const peakTimestamps = [];
+      let lastPeakTime = -600;
+
+      for (let i = 1; i < smoothed.length - 1; i++) {
+        if (
+          smoothed[i].v >= minAmpThreshold &&
+          smoothed[i].v >= smoothed[i - 1].v &&
+          smoothed[i].v >= smoothed[i + 1].v &&
+          smoothed[i].t - lastPeakTime >= 360
+        ) {
+          peakTimestamps.push(smoothed[i].t);
+          lastPeakTime = smoothed[i].t;
+        }
+      }
+
+      if (peakTimestamps.length < 4) return null;
+
+      // Calculate inter-beat intervals (IBIs) and take trimmed median for noise immunity
+      const intervals = [];
+      for (let i = 1; i < peakTimestamps.length; i++) {
+        const diff = peakTimestamps[i] - peakTimestamps[i - 1];
+        if (diff >= 350 && diff <= 1450) intervals.push(diff);
+      }
+
+      if (intervals.length < 3) return null;
+      intervals.sort((a, b) => a - b);
+      const mid = Math.floor(intervals.length / 2);
+      const medianInterval = intervals.length % 2 === 0
+        ? (intervals[mid - 1] + intervals[mid]) / 2
+        : intervals[mid];
+
+      const bpm = Math.round(60000 / medianInterval);
+      return bpm >= 42 && bpm <= 195 ? bpm : null;
+    }
+
+    function saveCompletedHeartRate(bpm) {
+      const zoneLabel = classifyBpmZone(bpm);
+      const entry = {
+        id: Date.now(),
+        bpm,
+        zone: zoneLabel,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+
+      appState.hrLogs.unshift(entry);
+      if (appState.hrLogs.length > 15) appState.hrLogs.length = 15;
+
+      if (!appState.profile.restingHr) {
+        appState.profile.restingHr = String(bpm);
+      }
+
+      persistState();
+      renderAll();
+
+      const countdownText = document.getElementById('scanCountdownText');
+      if (countdownText) countdownText.textContent = `Completed 60s scan: ${bpm} BPM (${zoneLabel})`;
+      showToast(`60-second pulse complete: ${bpm} BPM!`);
+    }
+
+    function stop60SecondHeartScan(notifyUser = true) {
+      if (hrCountdownInterval) {
+        clearInterval(hrCountdownInterval);
+        hrCountdownInterval = null;
+      }
+      if (hrAnimFrame) {
+        cancelAnimationFrame(hrAnimFrame);
+        hrAnimFrame = null;
+      }
+      if (hrTrack) {
+        try {
+          hrTrack.applyConstraints({ advanced: [{ torch: false }] }).catch(() => {});
+        } catch (_) {}
+        hrTrack = null;
+      }
+      if (hrStream) {
+        hrStream.getTracks().forEach((t) => t.stop());
+        hrStream = null;
+      }
+
+      const heartIcon = document.getElementById('hrHeartPulseIcon');
+      if (heartIcon) heartIcon.classList.remove('heart-beating');
+
+      const ringEl = document.getElementById('scanRingProgress');
+      if (ringEl) ringEl.style.strokeDashoffset = '326.7';
+
+      const timerBadge = document.getElementById('scanTimerBadge');
+      if (timerBadge) timerBadge.textContent = '60s';
+
+      if (notifyUser) {
+        const countdownText = document.getElementById('scanCountdownText');
+        if (countdownText) countdownText.textContent = 'Scan stopped';
+        showToast('Flashlight turned off and scan stopped.');
+      }
+    }
+
+    function classifyBpmZone(bpm) {
+      const age = parseFloat(appState.profile.age);
+      const rest = parseFloat(appState.profile.restingHr);
+      if (isNaN(age) || age <= 0 || isNaN(rest) || rest <= 0) {
+        return bpm < 95 ? 'Resting / Light' : 'Active Fat Burn';
+      }
+      const maxHr = 220 - age;
+      const hrr = Math.max(40, maxHr - rest);
+      const intensity = (bpm - rest) / hrr;
+      if (intensity < 0.5) return 'Resting / Recovery';
+      if (intensity < 0.6) return 'Zone 1 Warm-Up';
+      if (intensity <= 0.72) return 'Zone 2 Fat Burn';
+      if (intensity <= 0.82) return 'Zone 3 Aerobic';
+      return 'Zone 4 Peak';
+    }
+
+    function pushWavePoint(val) {
+      wavePoints.push(val);
+      if (wavePoints.length > 64) wavePoints.shift();
+      drawPpgWave();
+    }
+
+    function drawPpgWave() {
+      const canvas = document.getElementById('ppgWaveCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width = canvas.clientWidth || 300;
+      const h = canvas.height = canvas.clientHeight || 80;
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.strokeStyle = '#E11D48';
+      ctx.lineWidth = 2.5;
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+
+      wavePoints.forEach((pt, idx) => {
+        const x = (idx / Math.max(1, wavePoints.length - 1)) * w;
+        const y = h - pt * (h - 14) - 7;
+        if (idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    }
+
+    function handleRestingHrChange() {
+      const input = document.getElementById('restingHrInput');
+      if (input) {
+        appState.profile.restingHr = input.value;
+        persistState();
+        renderHeartSection();
+      }
+    }
+
+    function clearHrHistory() {
+      appState.hrLogs = [];
+      persistState();
+      renderHeartSection();
+      renderHero();
+      showToast('Cleared saved heart rate logs.');
+    }
+
+    /* =====================================================================
+       6. FAT-LOSS CALORIE CALCULATION & MEAL LIST
+       ===================================================================== */
+    function computeFatLossMetrics() {
+      const { sex, age, weightKg, heightCm, activityFactor, deficitKcal } = appState.profile;
+      const w = parseFloat(weightKg);
+      const h = parseFloat(heightCm);
+      const a = parseFloat(age);
+      const act = parseFloat(activityFactor) || 1.2;
+      const def = Math.max(0, Math.min(1200, parseFloat(deficitKcal) || 0));
+
+      const eatenKcal = appState.meals.reduce((sum, m) => sum + (Number(m.kcal) || 0), 0);
+      const isComplete = !isNaN(w) && w > 0 && !isNaN(h) && h > 0 && !isNaN(a) && a > 0 && Boolean(sex);
+
+      if (!isComplete) {
+        return {
+          isComplete: false,
+          maintenance: null,
+          fatLossTarget: null,
+          weeklyKgLoss: null,
+          eatenKcal,
+          remainingKcal: null,
+          deficit: def
+        };
+      }
+
+      const sexConst = sex === 'male' ? 5 : -161;
+      const bmr = 10 * w + 6.25 * h - 5 * a + sexConst;
+      const maintenance = Math.round(bmr * act);
+      const fatLossTarget = Math.max(1200, Math.round(maintenance - def));
+      const actualDeficit = Math.max(0, maintenance - fatLossTarget);
+      const weeklyKgLoss = ((actualDeficit * 7) / 7700).toFixed(2);
+      const remainingKcal = fatLossTarget - eatenKcal;
+
+      return {
+        isComplete: true,
+        maintenance,
+        fatLossTarget,
+        weeklyKgLoss,
+        eatenKcal,
+        remainingKcal,
+        deficit: actualDeficit
+      };
+    }
+
+    function handleProfileFieldChange() {
+      appState.profile.sex = document.getElementById('profSex')?.value || '';
+      appState.profile.age = document.getElementById('profAge')?.value || '';
+      appState.profile.weightKg = document.getElementById('profWeight')?.value || '';
+      appState.profile.heightCm = document.getElementById('profHeight')?.value || '';
+      appState.profile.activityFactor = document.getElementById('profActivity')?.value || '';
+      appState.profile.deficitKcal = document.getElementById('profDeficit')?.value || '';
+      persistState();
+      renderAll();
+    }
+
+    function applyDeficitPreset(kcal) {
+      appState.profile.deficitKcal = String(kcal);
+      const el = document.getElementById('profDeficit');
+      if (el) el.value = kcal;
+      persistState();
+      renderAll();
+      showToast(`Fat-loss deficit set to -${kcal} kcal/day.`);
+    }
+
+    function selectNewMealCategory(cat) {
+      appState.newMealCategory = cat;
+      persistState();
+      document.querySelectorAll('.new-meal-cat-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.getAttribute('data-meal-cat') === cat);
+      });
+    }
+
+    function setMealFilterCategory(cat) {
+      appState.filterMealCategory = cat;
+      persistState();
+      document.querySelectorAll('.filter-cat-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.getAttribute('data-filter-cat') === cat);
+      });
+      renderMealsList();
+    }
+
+    function handleAddMealSubmit(e) {
+      e.preventDefault();
+      const nameEl = document.getElementById('mealNameInput');
+      const kcalEl = document.getElementById('mealKcalInput');
+      const protEl = document.getElementById('mealProteinInput');
+
+      const name = (nameEl.value || '').trim();
+      const kcal = Math.round(parseFloat(kcalEl.value) || 0);
+      const protein = Math.round(parseFloat(protEl.value) || 0);
+
+      if (!name || kcal <= 0) {
+        showToast('Please enter or speak a meal name and calorie value.', true);
+        return;
+      }
+
+      appState.meals.unshift({
+        id: Date.now() + Math.random(),
+        name,
+        kcal,
+        protein,
+        category: appState.newMealCategory || 'Breakfast',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      });
+
+      nameEl.value = '';
+      kcalEl.value = '';
+      protEl.value = '';
+      persistState();
+      renderAll();
+      showToast(`Added "${name}" (${kcal} kcal).`);
+    }
+
+    function removeMealItem(id) {
+      appState.meals = appState.meals.filter((m) => String(m.id) !== String(id));
+      persistState();
+      renderAll();
+    }
+
+    function clearAllMeals() {
+      appState.meals = [];
+      persistState();
+      renderAll();
+      showToast('Cleared today’s meal list.');
+    }
+
+    /* =====================================================================
+       7. WEB SHARE API (RICH SUMMARY TEXT + GENERATED SHARE CARD IMAGE)
+       ===================================================================== */
+    async function generateSummaryShareFile() {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 900;
+        canvas.height = 480;
+        const ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = '#F8F7F4';
+        ctx.fillRect(0, 0, 900, 480);
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.beginPath();
+        ctx.roundRect(36, 36, 828, 408, 36);
+        ctx.fill();
+        ctx.strokeStyle = '#EAE8E1';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.fillStyle = '#1C1C1E';
+        ctx.font = '800 36px Inter, sans-serif';
+        ctx.fillText('Pulse & Lean — Daily Progress', 76, 108);
+
+        const latestHr = appState.hrLogs[0]?.bpm ? `${appState.hrLogs[0].bpm} BPM` : '-- BPM';
+        const cal = computeFatLossMetrics();
+        const calText = cal.isComplete
+          ? `${cal.remainingKcal} kcal left (Goal ${cal.fatLossTarget} kcal)`
+          : `${cal.eatenKcal} kcal logged today`;
+
+        ctx.fillStyle = '#E11D48';
+        ctx.font = '700 30px Inter, sans-serif';
+        ctx.fillText(`♥ 60s Pulse: ${latestHr}`, 76, 200);
+
+        ctx.fillStyle = '#D97706';
+        ctx.font = '700 30px Inter, sans-serif';
+        ctx.fillText(`🔥 Fat-Loss Budget: ${calText}`, 76, 270);
+
+        ctx.fillStyle = '#6E6D68';
+        ctx.font = '500 22px Inter, sans-serif';
+        ctx.fillText('Tracked offline with Pulse & Lean PWA', 76, 375);
+
+        return await new Promise((resolve) => {
+          canvas.toBlob((blob) => {
+            if (!blob) resolve(null);
+            else resolve(new File([blob], 'pulse-lean-summary.png', { type: 'image/png' }));
+          }, 'image/png');
+        });
+      } catch (_) {
+        return null;
+      }
+    }
+
+    async function shareWithWebShare(title, text) {
+      const shareFile = await generateSummaryShareFile();
+      if (navigator.share) {
+        try {
+          if (shareFile && navigator.canShare && navigator.canShare({ files: [shareFile] })) {
+            await navigator.share({ title, text, files: [shareFile] });
+          } else {
+            await navigator.share({ title, text, url: location.href });
+          }
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
+        }
+      }
+
+      // Clipboard fallback
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = `${title}\n${text}`;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Summary copied to clipboard for sharing!');
+      } catch (_) {
+        showToast('Ready to share your summary!');
+      }
+    }
+
+    function shareDailySummary() {
+      const latestHr = appState.hrLogs[0] ? `${appState.hrLogs[0].bpm} BPM (${appState.hrLogs[0].zone})` : 'Not scanned yet';
+      const cal = computeFatLossMetrics();
+      const calLine = cal.isComplete
+        ? `${cal.eatenKcal} / ${cal.fatLossTarget} kcal eaten (${cal.remainingKcal} kcal left, -${cal.deficit} deficit)`
+        : `${cal.eatenKcal} kcal logged today`;
+
+      shareWithWebShare(
+        'Pulse & Lean — My Heart Rate & Fat-Loss Summary',
+        `♥ 60s Pulse: ${latestHr}\n🔥 Fat-Loss Calories: ${calLine}`
+      );
+    }
+
+    function shareHeartRateResult() {
+      const latest = appState.hrLogs[0];
+      if (!latest) {
+        showToast('Run a 60-second heart rate scan first to share your pulse.', true);
+        return;
+      }
+      shareWithWebShare(
+        'My 60-Second Heart Rate Reading',
+        `♥ Measured ${latest.bpm} BPM (${latest.zone}) at ${latest.timestamp} on Pulse & Lean.`
+      );
+    }
+
+    function shareCalorieSummary() {
+      const cal = computeFatLossMetrics();
+      const summary = cal.isComplete
+        ? `🔥 Fat-Loss Target: ${cal.fatLossTarget} kcal/day | Eaten: ${cal.eatenKcal} kcal | Remaining: ${cal.remainingKcal} kcal (~${cal.weeklyKgLoss} kg/wk loss)`
+        : `🔥 Logged ${cal.eatenKcal} kcal across ${appState.meals.length} meals today on Pulse & Lean.`;
+      shareWithWebShare('My Fat-Loss Calorie Progress', summary);
+    }
+
+    /* =====================================================================
+       8. UI NAVIGATION & RENDERING
+       ===================================================================== */
+    function switchMainTab(tabName) {
+      appState.activeTab = tabName;
+      persistState();
+
+      document.getElementById('section-heart')?.classList.toggle('hidden', tabName !== 'heart');
+      document.getElementById('section-calories')?.classList.toggle('hidden', tabName !== 'calories');
+
+      document.getElementById('tabBtn-heart')?.classList.toggle('active', tabName === 'heart');
+      document.getElementById('tabBtn-calories')?.classList.toggle('active', tabName === 'calories');
+
+      if (tabName === 'heart') requestAnimationFrame(drawPpgWave);
+    }
+
+    function showToast(message, isError = false) {
+      const banner = document.getElementById('toastBanner');
+      const msgEl = document.getElementById('toastMessage');
+      const iconEl = document.getElementById('toastIcon');
+      if (!banner || !msgEl || !iconEl) return;
+
+      msgEl.textContent = message;
+      iconEl.textContent = isError ? '!' : '✦';
+      iconEl.className = isError
+        ? 'w-7 h-7 rounded-full bg-rose-500/15 text-rose-600 flex items-center justify-center shrink-0 font-bold'
+        : 'w-7 h-7 rounded-full bg-amber-500/15 text-amber-600 flex items-center justify-center shrink-0 font-bold';
+
+      banner.classList.remove('opacity-0', '-translate-y-3');
+      banner.classList.add('opacity-100', 'translate-y-0');
+
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => {
+        banner.classList.remove('opacity-100', 'translate-y-0');
+        banner.classList.add('opacity-0', '-translate-y-3');
+      }, 3200);
+    }
+
+    function syncInputsFromState() {
+      const p = appState.profile;
+      const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && document.activeElement !== el) el.value = val || '';
+      };
+      setVal('profSex', p.sex);
+      setVal('profAge', p.age);
+      setVal('profWeight', p.weightKg);
+      setVal('profHeight', p.heightCm);
+      setVal('profActivity', p.activityFactor);
+      setVal('profDeficit', p.deficitKcal);
+      setVal('restingHrInput', p.restingHr);
+
+      selectNewMealCategory(appState.newMealCategory || 'Breakfast');
+      document.querySelectorAll('.filter-cat-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.getAttribute('data-filter-cat') === (appState.filterMealCategory || 'All'));
+      });
+    }
+
+    function renderHero() {
+      const cal = computeFatLossMetrics();
+      const leftEl = document.getElementById('heroCaloriesLeft');
+      const subEl = document.getElementById('heroCalorieSub');
+      const defTagEl = document.getElementById('heroDeficitTag');
+
+      if (!cal.isComplete) {
+        if (leftEl) leftEl.textContent = cal.eatenKcal > 0 ? `${cal.eatenKcal} eaten` : '—';
+        if (subEl) subEl.textContent = 'Enter metrics in Fat-Loss tab';
+        if (defTagEl) defTagEl.textContent = 'Fat Loss';
+      } else {
+        if (leftEl) leftEl.textContent = `${cal.remainingKcal.toLocaleString()} kcal`;
+        if (subEl) subEl.textContent = `${cal.eatenKcal} / ${cal.fatLossTarget} kcal goal`;
+        if (defTagEl) defTagEl.textContent = `-${cal.deficit} kcal`;
+      }
+
+      const latestHr = appState.hrLogs[0];
+      const bpmEl = document.getElementById('heroBpmVal');
+      const zoneSubEl = document.getElementById('heroZoneSub');
+      const zoneTagEl = document.getElementById('heroFatBurnZoneTag');
+
+      if (latestHr) {
+        if (bpmEl) bpmEl.textContent = latestHr.bpm;
+        if (zoneSubEl) zoneSubEl.textContent = `${latestHr.zone} • ${latestHr.timestamp}`;
+        if (zoneTagEl) zoneTagEl.textContent = latestHr.zone;
+      } else {
+        if (bpmEl) bpmEl.textContent = '--';
+        if (zoneSubEl) zoneSubEl.textContent = 'Tap for 60s flashlight scan';
+        if (zoneTagEl) zoneTagEl.textContent = '60s Pulse';
+      }
+    }
+
+    function renderHeartSection() {
+      const zonesContainer = document.getElementById('fatBurnZonesContainer');
+      const age = parseFloat(appState.profile.age);
+      const rest = parseFloat(appState.profile.restingHr);
+
+      if (zonesContainer) {
+        if (isNaN(age) || age <= 0 || isNaN(rest) || rest <= 0) {
+          zonesContainer.innerHTML = `
+            <div class="app-subcard p-3.5 text-xs text-center" style="color: var(--text-secondary);">
+              Enter your <strong>Age</strong> (in Fat-Loss tab) and <strong>Resting Heart Rate</strong> above to unlock your personalized Fat-Burn Heart Rate Zones.
+            </div>
+          `;
+        } else {
+          const maxHr = Math.round(220 - age);
+          const hrr = Math.max(40, maxHr - rest);
+          const zones = [
+            { title: 'Warm-Up & Recovery', pct: '50%–60%', low: 0.50, high: 0.60, badge: 'bg-sky-500/15 text-sky-600', highlight: false },
+            { title: 'Optimal Fat-Burn Zone', pct: '60%–70%', low: 0.60, high: 0.70, badge: 'bg-amber-500/20 text-amber-600', highlight: true },
+            { title: 'Aerobic Endurance', pct: '70%–80%', low: 0.70, high: 0.80, badge: 'bg-emerald-500/15 text-emerald-600', highlight: false },
+            { title: 'Anaerobic Performance', pct: '80%–90%', low: 0.80, high: 0.90, badge: 'bg-rose-500/15 text-rose-600', highlight: false }
+          ];
+
+          zonesContainer.innerHTML = zones.map((z) => {
+            const minBpm = Math.round(hrr * z.low + rest);
+            const maxBpm = Math.round(hrr * z.high + rest);
+            return `
+              <div class="app-subcard p-3.5 flex items-center justify-between gap-3 ${z.highlight ? 'ring-2 ring-amber-500/50' : ''}">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="w-9 h-9 rounded-xl ${z.badge} flex items-center justify-center font-extrabold text-xs shrink-0">${z.pct}</span>
+                  <div class="min-w-0">
+                    <div class="text-sm font-bold truncate">${z.title}</div>
+                    <div class="text-[11px]" style="color: var(--text-secondary);">${z.highlight ? 'Peak lipid oxidation zone' : `Max HR ${maxHr} BPM`}</div>
+                  </div>
+                </div>
+                <div class="text-sm font-extrabold shrink-0">${minBpm}–${maxBpm} BPM</div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      const historyList = document.getElementById('hrHistoryList');
+      if (historyList) {
+        if (appState.hrLogs.length === 0) {
+          historyList.innerHTML = `<div class="app-subcard p-4 text-xs text-center" style="color: var(--text-secondary);">No 60-second pulse scans logged yet.</div>`;
+        } else {
+          historyList.innerHTML = appState.hrLogs.map((log) => `
+            <div class="app-subcard p-3.5 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3 min-w-0">
+                <span class="w-10 h-10 rounded-xl bg-rose-500/15 text-rose-600 flex items-center justify-center font-bold shrink-0">♥</span>
+                <div class="min-w-0">
+                  <div class="text-sm font-extrabold">${log.bpm} BPM</div>
+                  <div class="text-[11px] truncate" style="color: var(--text-secondary);">${escapeHtml(log.zone)} &bull; ${escapeHtml(log.timestamp)}</div>
+                </div>
+              </div>
+              <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-600 shrink-0">60s Scan</span>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    function renderCaloriesSection() {
+      const cal = computeFatLossMetrics();
+      const maintEl = document.getElementById('calcMaintVal');
+      const targetEl = document.getElementById('calcTargetVal');
+      const lossEl = document.getElementById('calcWeeklyLossVal');
+
+      if (maintEl) maintEl.textContent = cal.isComplete ? cal.maintenance.toLocaleString() : '—';
+      if (targetEl) targetEl.textContent = cal.isComplete ? cal.fatLossTarget.toLocaleString() : '—';
+      if (lossEl) lossEl.textContent = cal.isComplete ? `-${cal.weeklyKgLoss}` : '—';
+
+      const eatenFooter = document.getElementById('footerEatenKcal');
+      const remFooter = document.getElementById('footerRemainingStatus');
+      const barEl = document.getElementById('calorieBudgetBar');
+
+      if (eatenFooter) eatenFooter.textContent = cal.eatenKcal.toLocaleString();
+      if (remFooter) {
+        if (!cal.isComplete) {
+          remFooter.textContent = 'Enter profile metrics above';
+          remFooter.className = '';
+        } else if (cal.remainingKcal >= 0) {
+          remFooter.textContent = `${cal.remainingKcal.toLocaleString()} kcal remaining`;
+          remFooter.className = 'text-emerald-600';
+        } else {
+          remFooter.textContent = `${Math.abs(cal.remainingKcal).toLocaleString()} kcal over target`;
+          remFooter.className = 'text-rose-600';
+        }
+      }
+
+      if (barEl) {
+        const pct = cal.isComplete
+          ? Math.min(100, Math.round((cal.eatenKcal / Math.max(1, cal.fatLossTarget)) * 100))
+          : 0;
+        barEl.style.width = `${pct}%`;
+      }
+
+      renderMealsList();
+    }
+
+    function renderMealsList() {
+      const listEl = document.getElementById('mealsCardList');
+      if (!listEl) return;
+
+      const filterCat = appState.filterMealCategory || 'All';
+      const searchQ = (document.getElementById('mealSearchInput')?.value || '').trim().toLowerCase();
+
+      const filtered = appState.meals.filter((m) => {
+        const matchesCat = filterCat === 'All' || m.category === filterCat;
+        const matchesSearch = !searchQ || m.name.toLowerCase().includes(searchQ);
+        return matchesCat && matchesSearch;
+      });
+
+      const categoryIcons = {
+        Breakfast: { icon: '🍳', bg: 'bg-amber-500/15' },
+        Lunch: { icon: '🥗', bg: 'bg-emerald-500/15' },
+        Dinner: { icon: '🍲', bg: 'bg-rose-500/15' },
+        Snack: { icon: '🍎', bg: 'bg-sky-500/15' }
+      };
+
+      if (filtered.length === 0) {
+        listEl.innerHTML = `
+          <div class="app-subcard p-4 text-xs text-center" style="color: var(--text-secondary);">
+            No meals match this filter yet. Type or speak a meal above to add it.
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = filtered.map((m) => {
+        const badge = categoryIcons[m.category] || { icon: '🍽', bg: 'bg-amber-500/15' };
+        return `
+          <div class="app-subcard p-3.5 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-11 h-11 rounded-2xl ${badge.bg} flex items-center justify-center text-lg shrink-0">
+                ${badge.icon}
+              </div>
+              <div class="min-w-0">
+                <div class="text-sm font-bold truncate">${escapeHtml(m.name)}</div>
+                <div class="text-[11px] flex items-center gap-2 mt-0.5" style="color: var(--text-secondary);">
+                  <span>${escapeHtml(m.category)}</span>
+                  <span>&bull;</span>
+                  <span>${m.protein || 0}g protein</span>
+                  <span>&bull;</span>
+                  <span>${escapeHtml(m.time || '')}</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2.5 shrink-0">
+              <span class="text-xs font-extrabold px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400">
+                ${Number(m.kcal).toLocaleString()} kcal
+              </span>
+              <button type="button" onclick="removeMealItem('${m.id}')" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-rose-600 cursor-pointer" aria-label="Delete meal">
+                ✕
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function renderAll() {
+      syncInputsFromState();
+      renderHero();
+      renderHeartSection();
+      renderCaloriesSection();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initPWA();
+      applyTheme();
+      restoreFromIndexedDBIfNeeded();
+      switchMainTab(appState.activeTab || 'heart');
+      renderAll();
+      drawPpgWave();
+    });
+  </script>
+</body>
+</html>
